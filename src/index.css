@@ -3,6 +3,7 @@
   --color-ink: #140D0A;
   --text-display: 43px;
   --text-display--line-height: 70px;
+    --color-surface-dark: #38220F;
 }
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
