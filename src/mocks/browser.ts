@@ -31,7 +31,7 @@ export async function enableMocks(): Promise<void> {
   if (isScenarioName(fromUrl)) setScenario(fromUrl)
 
   await worker.start({
-    onUnhandledRequest: 'bypass', // fontes, imagens e arquivos estáticos passam direto
+    onUnhandledFrame: 'bypass', // fontes, imagens e arquivos estáticos passam direto
     quiet: import.meta.env.PROD,
   })
   scheduleSettlements() // reagenda pedidos que estavam pendentes antes de um refresh
