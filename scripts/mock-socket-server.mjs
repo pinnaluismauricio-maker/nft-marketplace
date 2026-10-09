@@ -79,7 +79,10 @@ const httpServer = createServer((req, res) => {
 
 const io = new Server(httpServer, {
   cors: {
-    origin: allowedOrigins,
+    origin:  [
+      "http://localhost:5173",
+      "https://nft-marketplace-rgq5ziprq-pinnaluismauricio-1477.vercel.app"
+    ],
     methods: ['GET', 'POST'],
   },
 })
