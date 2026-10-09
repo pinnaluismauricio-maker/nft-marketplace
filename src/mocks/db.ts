@@ -80,6 +80,15 @@ type EventInput = Omit<DomainEvent, 'id' | 'occurredAt'>
 export function publish(event: EventInput): DomainEvent {
   const full = { ...event, id: nextId('event', 'evt'), occurredAt: new Date().toISOString() } as DomainEvent
   mockBus.emit(full)
+  if (import.meta.env.DEV) {
+  void fetch('http://localhost:3001/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(full),
+  }).catch((error) => {
+    console.warn('Não foi possível encaminhar o evento Socket.IO:', error)
+  })
+}
   return full
 }
 
