@@ -25,11 +25,20 @@ function Newsletter() {
       className="space-y-2"
     >
       <h2 className="text-sm font-bold">Antecipe-se ao próximo lançamento</h2>
-      <div className="flex">
-        <label htmlFor="newsletter-email" className="sr-only">E-mail</label>
-        <Input id="newsletter-email" type="email" placeholder="digite seu e-mail..." />
-        <button type="submit" className={buttonVariants()}>Enviar</button>
-      </div>
+      <div className="flex flex-col gap-2 sm:flex-row">
+    <label htmlFor="newsletter-email" className="sr-only">
+    E-mail
+    </label>
+    <Input
+    id="newsletter-email"
+    type="email"
+    placeholder="digite seu e-mail..."
+    className="min-w-0 flex-1"
+    />
+    <button type="submit" className={buttonVariants()}>
+    Enviar
+    </button>
+    </div>
       <p className="text-xs text-muted-foreground">Receba lançamentos selecionados, histórias de criadores e novidades do mercado.</p>
       <p role="status" className="text-xs">{notice}</p>
     </form>

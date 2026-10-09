@@ -1,11 +1,23 @@
 
+
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
 
-const PORT = Number(process.env.SOCKET_PORT || 3001)
+const PORT = Number(process.env.PORT || process.env.SOCKET_PORT || 3001)
+
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
 
 const httpServer = createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173')
+  const origin = req.headers.origin
+
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin)
+    res.setHeader('Vary', 'Origin')
+  }
+
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
 
@@ -20,14 +32,20 @@ const httpServer = createServer((req, res) => {
   }
 
   let body = ''
+
   req.on('data', (chunk) => {
     body += chunk
+
     if (body.length > 1_000_000) {
+      res.writeHead(413)
+      res.end('Payload too large')
       req.destroy()
     }
   })
 
   req.on('end', () => {
+    if (res.writableEnded) return
+
     try {
       const event = JSON.parse(body)
 
@@ -61,7 +79,7 @@ const httpServer = createServer((req, res) => {
 
 const io = new Server(httpServer, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
   },
 })
@@ -74,6 +92,6 @@ io.on('connection', (socket) => {
   })
 })
 
-httpServer.listen(PORT, () => {
-  console.log(`Mock Socket.IO ativo em http://localhost:${PORT}`)
+httpServer.listen(PORT, '0.0.0.0', () => {
+  console.log(`Mock Socket.IO ativo na porta ${PORT}`)
 })
