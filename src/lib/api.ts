@@ -1,6 +1,12 @@
 import axios from 'axios'
 import type { ApiErrorBody, ErrorCode } from '@/types/api'
-import { getGuestId, getToken } from './session'
+import { getGuestId, getToken, notifySessionExpired } from './session'
+
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    skipSessionExpiry?: boolean
+  }
+}
 
 export class ApiError extends Error {
   status: number
@@ -41,6 +47,13 @@ api.interceptors.response.use(
 
     const body = error.response?.data?.error
     if (body) {
+      if (
+      error.response?.status === 401 &&
+      !error.config?.skipSessionExpiry &&
+      (body.code === 'SESSION_EXPIRED' || body.code === 'UNAUTHENTICATED')
+    ) {
+  notifySessionExpired()
+  }
       throw new ApiError({
         message: body.message,
         status: error.response!.status,

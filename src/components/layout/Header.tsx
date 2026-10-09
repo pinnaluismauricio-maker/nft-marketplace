@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { Search, ShoppingCart } from 'lucide-react'
-import { buttonVariants } from '@/components/ui/button'
 import { Container } from './Container'
+import { AccountMenu } from './AccountMenu'
 
 export function Header() {
   return (
@@ -30,7 +30,7 @@ export function Header() {
         <div className="flex items-center gap-4">
           <button type="button" aria-label="Buscar"><Search size={18} /></button>
           <Link to="/cart" aria-label="Carrinho, 0 itens"><ShoppingCart size={18} /></Link>
-          <Link to="/login" className={buttonVariants({ size: 'sm' })}>Entrar</Link>
+          <AccountMenu />
         </div>
       </Container>
     </header>

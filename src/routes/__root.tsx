@@ -1,14 +1,22 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { Header } from '@/components/layout/Header'
+import type { QueryClient } from '@tanstack/react-query'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
+import { Container } from '@/components/layout/Container'
 import { Footer } from '@/components/layout/Footer'
+import { Header } from '@/components/layout/Header'
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   component: () => (
     <>
       <Header />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <Footer />
     </>
   ),
-  notFoundComponent: () => <p>Página não encontrada</p>,
+  notFoundComponent: () => (
+    <Container>
+      <h1 className="py-12 text-display font-bold">Página não encontrada</h1>
+    </Container>
+  ),
 })
