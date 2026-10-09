@@ -11,7 +11,7 @@ import { resetRuntime } from './scenarios'
  * - Persistência: sobrevive a F5. Isolada por navegador/origem.
  * - reset(): descarta tudo e volta ao seed conhecido.
  */
-const STORAGE_KEY = 'kurio:db:v1'
+const STORAGE_KEY = 'kurio:db:v2'
 export const SESSION_TTL_MS = 60 * 60 * 1000
 
 let state: DbState = load()

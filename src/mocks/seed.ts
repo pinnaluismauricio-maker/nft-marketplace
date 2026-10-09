@@ -3,16 +3,6 @@ import { COLLECTIONS, NETWORKS, type Edition, type Nft } from '../types/api'
 import { fakeHex, recomputeDerived } from './domain'
 import type { DbState, UserRecord, WalletRecord } from './records'
 
-/**
- * Dados iniciais 100% determinísticos (sem Math.random): mesmo seed => mesmos NFTs, ids e preços.
- *
- * Imagens: exporte do Figma as 4 artes e salve em public/nfts/art-01.png ... art-04.png
- *   art-01 = macaco de óculos e jaqueta verde (Emerald Ape)
- *   art-02 = gorila de chapéu e moletom roxo (Sage Nomad, Cosmic Bloom, Violet Nomad)
- *   art-03 = gorila escuro de casaco bege (Neon Vessel, Ivory Baron)
- *   art-04 = macaco laranja com fones (Golden Beat, Golden Signal)
- */
-
 /** Credenciais fictícias: ana@kurio.test / bruno@kurio.test, ambos com a senha Kurio@123 */
 const USERS: UserRecord[] = [
   {
@@ -114,7 +104,7 @@ function buildNfts(): Nft[] {
     }))
 
     const gallery = [art, (art % 4) + 1, ((art + 1) % 4) + 1, ((art + 2) % 4) + 1].map(
-      (n) => `/nfts/art-0${n}.png`,
+      (n) => `/nfts/art-0${n}.webp`,
     )
     const rarity = i % 7 === 0 ? 'Lendária' : i % 3 === 0 ? 'Rara' : 'Comum'
     const nft: Nft = {
